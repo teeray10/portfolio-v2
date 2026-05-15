@@ -1,50 +1,97 @@
-# [PROJECT_NAME] Constitution
-<!-- Example: Spec Constitution, TaskFlow Constitution, etc. -->
+<!--
+SYNC IMPACT REPORT
+==================
+Version change: template → 1.0.0
+New sections: Core Principles (I–V), Technology Standards, Development Workflow, Governance
+Modified principles: n/a (initial ratification)
+Added sections: I. Visual Distinction, II. Cutting-Edge Stack, III. Attention to Detail,
+                IV. Code Quality & Standards, V. Simplicity First
+Removed sections: none
+Templates updated:
+  ✅ .specify/memory/constitution.md — this file
+  ⚠ .specify/templates/plan-template.md — Constitution Check gates should reference principles I–V
+  ⚠ .specify/templates/spec-template.md — visual/UX acceptance criteria should cite Principle I & III
+  ⚠ .specify/templates/tasks-template.md — task categories should include visual polish & a11y tasks
+Follow-up TODOs: none — all placeholders resolved
+-->
+
+# Portfolio v2 Constitution
 
 ## Core Principles
 
-### [PRINCIPLE_1_NAME]
-<!-- Example: I. Library-First -->
-[PRINCIPLE_1_DESCRIPTION]
-<!-- Example: Every feature starts as a standalone library; Libraries must be self-contained, independently testable, documented; Clear purpose required - no organizational-only libraries -->
+### I. Visual Distinction (NON-NEGOTIABLE)
 
-### [PRINCIPLE_2_NAME]
-<!-- Example: II. CLI Interface -->
-[PRINCIPLE_2_DESCRIPTION]
-<!-- Example: Every library exposes functionality via CLI; Text in/out protocol: stdin/args → stdout, errors → stderr; Support JSON + human-readable formats -->
+Every UI element, layout, and interaction MUST be striking, memorable, and unmistakably
+non-generic. Cookie-cutter patterns, AI slop aesthetics, and off-the-shelf template designs
+are FORBIDDEN. Designs MUST demonstrate creative intent in composition, typography, motion,
+and color. When in doubt, go bolder — safe is invisible.
 
-### [PRINCIPLE_3_NAME]
-<!-- Example: III. Test-First (NON-NEGOTIABLE) -->
-[PRINCIPLE_3_DESCRIPTION]
-<!-- Example: TDD mandatory: Tests written → User approved → Tests fail → Then implement; Red-Green-Refactor cycle strictly enforced -->
+**Rationale**: A personal portfolio's sole job is to make an impression. Blending in is
+failure. Every visitor MUST remember what they saw.
 
-### [PRINCIPLE_4_NAME]
-<!-- Example: IV. Integration Testing -->
-[PRINCIPLE_4_DESCRIPTION]
-<!-- Example: Focus areas requiring integration tests: New library contract tests, Contract changes, Inter-service communication, Shared schemas -->
+### II. Cutting-Edge, Stable Stack
 
-### [PRINCIPLE_5_NAME]
-<!-- Example: V. Observability, VI. Versioning & Breaking Changes, VII. Simplicity -->
-[PRINCIPLE_5_DESCRIPTION]
-<!-- Example: Text I/O ensures debuggability; Structured logging required; Or: MAJOR.MINOR.BUILD format; Or: Start simple, YAGNI principles -->
+The latest stable release of every dependency MUST be used at time of feature development.
+Deprecated APIs, legacy syntax, and outdated patterns are FORBIDDEN. Prefer a non-Angular
+framework to demonstrate diversification and versatility.
 
-## [SECTION_2_NAME]
-<!-- Example: Additional Constraints, Security Requirements, Performance Standards, etc. -->
+**Rationale**: The portfolio is also a demonstration of technical currency. Using outdated
+tools contradicts the message.
 
-[SECTION_2_CONTENT]
-<!-- Example: Technology stack requirements, compliance standards, deployment policies, etc. -->
+### III. Attention to Detail
 
-## [SECTION_3_NAME]
-<!-- Example: Development Workflow, Review Process, Quality Gates, etc. -->
+Every spacing value, animation curve, transition duration, ARIA label, and font weight
+MUST be intentional and deliberate. Placeholder content, unrefined layout gaps, default
+browser styles, and "good enough" visual polish are FORBIDDEN. Interactions MUST feel
+crafted, not assembled.
 
-[SECTION_3_CONTENT]
-<!-- Example: Code review requirements, testing gates, deployment approval process, etc. -->
+**Rationale**: Detail is the difference between a side project and professional work.
+Visitors notice imprecision even when they cannot name it.
+
+### IV. Code Quality & Standards
+
+TypeScript strict mode MUST be enabled and zero type errors tolerated. ESLint MUST pass
+with zero warnings before any commit. SOLID principles MUST guide component and service
+design. Dead code, commented-out blocks, and redundant abstractions are FORBIDDEN.
+Consistent naming and file organisation conventions MUST be followed throughout.
+
+**Rationale**: Code quality is invisible to visitors but paramount for maintainability
+and as a signal of engineering discipline visible in the repository.
+
+### V. Simplicity First
+
+The simplest correct solution MUST be chosen over a clever, over-engineered one. YAGNI
+applies — features and abstractions MUST NOT be added speculatively. Verbose code MUST
+be refactored to its most concise idiomatic form. One clear, canonical approach per
+problem; no parallel patterns serving the same purpose.
+
+**Rationale**: Complexity compounds. Simple code is easy to change, review, and reason
+about — which matters most in a fast-moving solo project.
+
+## Development Workflow
+
+- All features MUST be developed on dedicated branches following the naming convention
+  established in `.specify/extensions.yml` (sequential feature branches).
+- A feature is not shippable until: TypeScript compiles with zero errors, ESLint reports
+  zero warnings, and all existing tests pass.
+- Visual changes MUST be reviewed against Principle I (Visual Distinction) and
+  Principle III (Attention to Detail) before merge.
+- Commit messages MUST follow the Conventional Commits specification.
+- No force-pushes to `main`. The `main` branch MUST always be deployable.
 
 ## Governance
-<!-- Example: Constitution supersedes all other practices; Amendments require documentation, approval, migration plan -->
 
-[GOVERNANCE_RULES]
-<!-- Example: All PRs/reviews must verify compliance; Complexity must be justified; Use [GUIDANCE_FILE] for runtime development guidance -->
+This constitution supersedes all other practices, conventions, or informal agreements in
+this repository. Amendments MUST:
 
-**Version**: [CONSTITUTION_VERSION] | **Ratified**: [RATIFICATION_DATE] | **Last Amended**: [LAST_AMENDED_DATE]
-<!-- Example: Version: 2.1.1 | Ratified: 2025-06-13 | Last Amended: 2025-07-16 -->
+1. Increment the version following semantic versioning (MAJOR: principle removal/redefinition;
+   MINOR: new principle or section; PATCH: clarification or wording fix).
+2. Update `LAST_AMENDED_DATE` to the date of the change.
+3. Propagate relevant changes to all templates in `.specify/templates/`.
+4. Be committed with a message of the form:
+   `docs: amend constitution to vX.Y.Z (<summary of change>)`
+
+Compliance is verified at every plan and task-generation step via the Constitution Check
+gate defined in `.specify/templates/plan-template.md`.
+
+**Version**: 1.0.0 | **Ratified**: 2026-05-15 | **Last Amended**: 2026-05-15

@@ -38,9 +38,18 @@
 
 ## Constitution Check
 
-*GATE: Must pass before Phase 0 research. Re-check after Phase 1 design.*
+_GATE: Must pass before Phase 0 research. Re-check after Phase 1 design._
 
-[Gates determined based on constitution file]
+- [ ] **I. Visual Distinction** — Does this feature include a visual/UI component? If yes,
+      confirm the design is striking and non-generic. No default layouts or AI slop patterns.
+- [ ] **II. Cutting-Edge Stack** — Are all chosen dependencies the latest stable release?
+      Are non-Angular tech choices used where applicable?
+- [ ] **III. Attention to Detail** — Are spacing, animation, ARIA, and typography decisions
+      explicitly captured in the spec? No "TBD" styling notes left unresolved.
+- [ ] **IV. Code Quality** — Strict TypeScript confirmed. ESLint config present. Naming
+      conventions defined.
+- [ ] **V. Simplicity First** — Is the proposed approach the simplest correct solution?
+      Justify any abstraction or indirection introduced.
 
 ## Project Structure
 
@@ -57,6 +66,7 @@ specs/[###-feature]/
 ```
 
 ### Source Code (repository root)
+
 <!--
   ACTION REQUIRED: Replace the placeholder tree below with the concrete layout
   for this feature. Delete unused options and expand the chosen structure with
@@ -107,7 +117,7 @@ directories captured above]
 
 > **Fill ONLY if Constitution Check has violations that must be justified**
 
-| Violation | Why Needed | Simpler Alternative Rejected Because |
-|-----------|------------|-------------------------------------|
-| [e.g., 4th project] | [current need] | [why 3 projects insufficient] |
-| [e.g., Repository pattern] | [specific problem] | [why direct DB access insufficient] |
+| Violation                  | Why Needed         | Simpler Alternative Rejected Because |
+| -------------------------- | ------------------ | ------------------------------------ |
+| [e.g., 4th project]        | [current need]     | [why 3 projects insufficient]        |
+| [e.g., Repository pattern] | [specific problem] | [why direct DB access insufficient]  |

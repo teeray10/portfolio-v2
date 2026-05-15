@@ -8,7 +8,7 @@
 
 **Input**: User description: "$ARGUMENTS"
 
-## User Scenarios & Testing *(mandatory)*
+## User Scenarios & Testing _(mandatory)_
 
 <!--
   IMPORTANT: User stories should be PRIORITIZED as user journeys ordered by importance.
@@ -78,7 +78,7 @@
 - What happens when [boundary condition]?
 - How does system handle [error scenario]?
 
-## Requirements *(mandatory)*
+## Requirements _(mandatory)_
 
 <!--
   ACTION REQUIRED: The content in this section represents placeholders.
@@ -93,17 +93,17 @@
 - **FR-004**: System MUST [data requirement, e.g., "persist user preferences"]
 - **FR-005**: System MUST [behavior, e.g., "log all security events"]
 
-*Example of marking unclear requirements:*
+_Example of marking unclear requirements:_
 
 - **FR-006**: System MUST authenticate users via [NEEDS CLARIFICATION: auth method not specified - email/password, SSO, OAuth?]
 - **FR-007**: System MUST retain user data for [NEEDS CLARIFICATION: retention period not specified]
 
-### Key Entities *(include if feature involves data)*
+### Key Entities _(include if feature involves data)_
 
 - **[Entity 1]**: [What it represents, key attributes without implementation]
 - **[Entity 2]**: [What it represents, relationships to other entities]
 
-## Success Criteria *(mandatory)*
+## Success Criteria _(mandatory)_
 
 <!--
   ACTION REQUIRED: Define measurable success criteria.
@@ -116,6 +116,19 @@
 - **SC-002**: [Measurable metric, e.g., "System handles 1000 concurrent users without degradation"]
 - **SC-003**: [User satisfaction metric, e.g., "90% of users successfully complete primary task on first attempt"]
 - **SC-004**: [Business metric, e.g., "Reduce support tickets related to [X] by 50%"]
+
+### Visual & UX Quality Gates _(mandatory for UI features — Constitution Principles I & III)_
+
+<!--
+  For any feature with a UI component, these gates MUST be satisfied before the feature
+  is considered complete. Reference: Constitution I (Visual Distinction), III (Attention to Detail).
+-->
+
+- **VQ-001**: Design is visually distinctive — does not resemble a generic template or AI-generated layout.
+- **VQ-002**: Typography, spacing, and colour decisions are explicitly defined (not browser defaults).
+- **VQ-003**: All interactive states (hover, focus, active, disabled) are designed and implemented.
+- **VQ-004**: Animations/transitions are purposeful, tuned, and feel crafted.
+- **VQ-005**: WCAG 2.2 AA accessibility requirements are met for all interactive elements.
 
 ## Assumptions
 
