@@ -94,6 +94,9 @@ relevant feature spec.
 - Visual changes MUST be reviewed against Principle I (Visual Distinction) and
   Principle III (Attention to Detail) before merge.
 - Commit messages MUST follow the Conventional Commits specification.
+- Every commit that implements a task MUST reference its GitHub issue using a footer
+  token — either `Closes #N` (auto-closes on merge) or `Refs #N` (partial progress).
+  Commits with no issue reference are FORBIDDEN except for `chore:` and `docs:` housekeeping.
 - No force-pushes to `main`. The `main` branch MUST always be deployable.
 
 ## Governance

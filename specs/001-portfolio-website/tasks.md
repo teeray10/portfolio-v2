@@ -6,6 +6,25 @@
 
 **Branch**: `001-portfolio-website`
 
+## Issue Tracking (mandatory)
+
+Every task has a corresponding GitHub issue at `https://github.com/teeray10/portfolio-v2/issues`.
+
+- **Before starting a task**: assign the issue to yourself and move it to _In Progress_.
+- **In every commit**: include a footer referencing the issue — `Closes #N` when the task is fully complete, or `Refs #N` for partial progress. Example:
+
+  ```
+  feat: implement HeroSection animated backdrop
+
+  Closes #23
+  ```
+
+- **On completion**: the issue closes automatically via `Closes #N` on merge to `main`.
+
+Commits with no issue reference are **FORBIDDEN** (see constitution Development Workflow).
+
+---
+
 ## Format: `[ID] [P?] [Story] Description`
 
 - **[P]**: Can run in parallel (different files, no dependencies on incomplete tasks)
