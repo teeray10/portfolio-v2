@@ -1,18 +1,17 @@
 <!--
 SYNC IMPACT REPORT
 ==================
-Version change: template → 1.0.0
-New sections: Core Principles (I–V), Technology Standards, Development Workflow, Governance
-Modified principles: n/a (initial ratification)
-Added sections: I. Visual Distinction, II. Cutting-Edge Stack, III. Attention to Detail,
-                IV. Code Quality & Standards, V. Simplicity First
-Removed sections: none
+Version change: 1.0.0 → 1.1.0 (MINOR — Technology Standards updated)
+Amendment: Replaced Angular-specific Technology Standards with Astro-based stack
+Modified sections: Technology Standards
+Modified principles: II (non-Angular framing already present; no text change needed)
+Added: Astro 6.x, TailwindCSS 4.x, Motion 12.x, Playwright, eslint-config-astro
+Removed: Angular CLI, angular-eslint, Angular Animations API, Angular Testing Library
 Templates updated:
   ✅ .specify/memory/constitution.md — this file
-  ⚠ .specify/templates/plan-template.md — Constitution Check gates should reference principles I–V
-  ⚠ .specify/templates/spec-template.md — visual/UX acceptance criteria should cite Principle I & III
-  ⚠ .specify/templates/tasks-template.md — task categories should include visual polish & a11y tasks
-Follow-up TODOs: none — all placeholders resolved
+  ✅ .specify/templates/plan-template.md — Constitution Check gates already reflect I–V
+  (no further template changes required for this amendment)
+Follow-up TODOs: none
 -->
 
 # Portfolio v2 Constitution
@@ -68,6 +67,24 @@ problem; no parallel patterns serving the same purpose.
 **Rationale**: Complexity compounds. Simple code is easy to change, review, and reason
 about — which matters most in a fast-moving solo project.
 
+## Technology Standards
+
+The following stack MUST be used. Deviations require explicit justification in the
+relevant feature spec.
+
+- **Framework**: Astro 6.x (latest stable) — zero-JS by default, Content Collections,
+  View Transitions, island architecture; demonstrates non-Angular versatility
+- **Language**: TypeScript 5.x (strict mode, latest stable) — zero type errors enforced
+- **Styling**: TailwindCSS 4.x — CSS-first config via `@theme {}`, OKLCH P3 colour palette,
+  custom design tokens; no inline `style` attributes
+- **Animations**: Motion 12.x (vanilla JS API) — `animate()`, `scroll()`, `inView()`;
+  spring physics and custom easing curves preferred over CSS transitions for key interactions
+- **Build**: Astro's built-in Vite 6 builder — no custom Vite config unless unavoidable
+- **Testing**: Playwright (e2e, critical user journeys only); no unit test framework
+  required for a static portfolio (YAGNI)
+- **Linting/Formatting**: ESLint (`eslint-config-astro`) + Prettier — zero-warning policy
+- **Accessibility**: WCAG 2.2 AA MUST be met for all interactive elements
+
 ## Development Workflow
 
 - All features MUST be developed on dedicated branches following the naming convention
@@ -94,4 +111,4 @@ this repository. Amendments MUST:
 Compliance is verified at every plan and task-generation step via the Constitution Check
 gate defined in `.specify/templates/plan-template.md`.
 
-**Version**: 1.0.0 | **Ratified**: 2026-05-15 | **Last Amended**: 2026-05-15
+**Version**: 1.1.0 | **Ratified**: 2026-05-15 | **Last Amended**: 2026-05-15
