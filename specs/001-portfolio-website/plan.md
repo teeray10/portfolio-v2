@@ -14,7 +14,7 @@ a striking hero, in an order designed to lead with proof and close with a call t
 The site is built with Astro 6.3 (zero-JS default, Content Collections, View Transitions),
 styled with TailwindCSS 4.3 (CSS-first OKLCH design tokens), and animated with Motion 12.x
 (spring physics, scroll-triggered reveals). Hosted statically on Cloudflare Pages (270+ PoPs)
-for sub-second FCP globally. No CMS, no tracking, no cookies.
+for sub-second FCP globally. No CMS, no server-side rendering.
 
 ## Technical Context
 
@@ -50,8 +50,7 @@ for sub-second FCP globally. No CMS, no tracking, no cookies.
 
 **Constraints**:
 
-- Zero first-party cookies — no consent banner required
-- No tracking/analytics scripts — keeps page weight down and removes GDPR exposure
+- GA4 included — fires unconditionally on every page view (consent assumed, no banner required)
 - Self-hosted fonts only — no render-blocking Google Fonts requests
 - Contact form: third-party service (TBD — host-agnostic, honeypot native, no extra JS)
 - Dark theme only in v1 — design tokens structured for future light theme extension
@@ -142,7 +141,8 @@ src/
 ├── pages/
 │   └── index.astro                  # Composes all sections
 └── styles/
-    └── global.css                   # @theme tokens + base layer
+    ├── tokens.css                   # All design tokens (@theme primitives + semantics)
+    └── global.css                   # @layer base, imports tokens.css
 
 public/
 ├── fonts/                           # Self-hosted WOFF2 variable fonts
@@ -227,6 +227,180 @@ confirmation state. Direct email as fallback.
   alternatives retain full content visibility.
 
 ---
+
+## Design System
+
+_Minimal token-first system. Components consume semantic tokens only — never raw values.
+Two-layer architecture makes the future light theme additive: only semantic tokens are
+remapped, no component markup changes._
+
+**File**: `src/styles/tokens.css` — imported at the top of `global.css`.
+
+### Colour Tokens
+
+```css
+@theme {
+  /* — Primitives (OKLCH — P3 gamut) — */
+  --color-gray-50: oklch(0.97 0.005 260);
+  --color-gray-100: oklch(0.93 0.008 260);
+  --color-gray-200: oklch(0.86 0.012 260);
+  --color-gray-400: oklch(0.62 0.018 260);
+  --color-gray-500: oklch(0.5 0.02 260);
+  --color-gray-700: oklch(0.28 0.02 260);
+  --color-gray-800: oklch(0.18 0.015 260);
+  --color-gray-900: oklch(0.13 0.012 260);
+  --color-gray-950: oklch(0.08 0.01 260);
+
+  /* Accent — replace [HUE] with chosen hue angle (e.g. 210 = blue, 270 = violet) */
+  --color-accent-300: oklch(0.85 0.16 [HUE]);
+  --color-accent-400: oklch(0.75 0.2 [HUE]);
+  --color-accent-500: oklch(0.65 0.24 [HUE]);
+  --color-accent-600: oklch(0.55 0.26 [HUE]);
+
+  /* — Semantic (dark theme — v1) — */
+  --color-bg: var(--color-gray-950);
+  --color-surface: var(--color-gray-900);
+  --color-surface-2: var(--color-gray-800);
+  --color-border: var(--color-gray-700);
+  --color-text: var(--color-gray-50);
+  --color-text-2: var(--color-gray-200);
+  --color-muted: var(--color-gray-500);
+  --color-accent: var(--color-accent-400);
+  --color-accent-dim: var(--color-accent-600);
+}
+```
+
+### Typography Tokens
+
+```css
+@theme {
+  /* Families — replace placeholders with chosen typefaces */
+  --font-display: 'DisplayFace', var(--font-sans);
+  --font-sans: 'SansFace', system-ui, sans-serif;
+  --font-mono: 'MonoFace', ui-monospace, monospace;
+
+  /* Size scale */
+  --text-xs: 0.75rem; /* 12px */
+  --text-sm: 0.875rem; /* 14px */
+  --text-base: 1rem; /* 16px */
+  --text-lg: 1.125rem; /* 18px */
+  --text-xl: 1.25rem; /* 20px */
+  --text-2xl: 1.5rem; /* 24px */
+  --text-3xl: 1.875rem; /* 30px */
+  --text-4xl: 2.25rem; /* 36px */
+  --text-5xl: 3rem; /* 48px */
+  --text-6xl: 3.75rem; /* 60px */
+  --text-7xl: 4.5rem; /* 72px */
+  --text-8xl: 6rem; /* 96px — hero display only */
+
+  /* Weight */
+  --font-normal: 400;
+  --font-medium: 500;
+  --font-semibold: 600;
+  --font-bold: 700;
+}
+```
+
+### Shape & Shadow Tokens
+
+```css
+@theme {
+  /* Border radius */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+  --radius-full: 9999px;
+
+  /* Shadows */
+  --shadow-sm: 0 1px 2px oklch(0 0 0 / 0.3);
+  --shadow-md: 0 4px 12px oklch(0 0 0 / 0.4);
+  --shadow-lg: 0 8px 24px oklch(0 0 0 / 0.5);
+  --shadow-glow: 0 0 20px oklch(from var(--color-accent) l c h / 0.3);
+}
+```
+
+### Motion Tokens
+
+```css
+@theme {
+  /* Easing */
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
+  --ease-in-out: cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* Duration scale */
+  --duration-fast: 150ms;
+  --duration-base: 250ms;
+  --duration-slow: 400ms;
+  --duration-slower: 600ms;
+}
+```
+
+### Future Light Theme Extension
+
+Adding a light theme later requires only this — no component changes:
+
+```css
+[data-theme='light'] {
+  --color-bg: var(--color-gray-50);
+  --color-surface: var(--color-gray-100);
+  --color-surface-2: var(--color-gray-200);
+  --color-border: var(--color-gray-200);
+  --color-text: var(--color-gray-950);
+  --color-text-2: var(--color-gray-800);
+  --color-muted: var(--color-gray-500);
+  /* accent tokens unchanged */
+}
+```
+
+---
+
+## Google Analytics 4 (Late MVP1 Step)
+
+> ⚠️ This supersedes spec clarification Q1. GA4 is added as one of the **final** tasks
+> before public launch, after all content and core functionality is complete.
+
+**Integration**: GA4 via `gtag.js`, loaded unconditionally on every page view. Consent is assumed — no consent banner or `localStorage` state is required.
+
+**Implementation in `BaseLayout.astro`**:
+
+```astro
+---
+const GA_ID = import.meta.env.PUBLIC_GA_ID; // e.g., "G-XXXXXXXXXX"
+---
+{GA_ID && (
+  <>
+    <script
+      is:inline
+      async
+      src={`https://www.googletagmanager.com/gtag/js?id=${GA_ID}`}
+    />
+    <script is:inline define:vars={{ GA_ID }}>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){ dataLayer.push(arguments); }
+      gtag('js', new Date());
+      gtag('config', GA_ID, { anonymize_ip: true });
+    </script>
+  </>
+)}
+```
+
+**Environment variable**: `PUBLIC_GA_ID` — set in Cloudflare Pages environment
+variables (not committed to the repository). GA does not fire in local development
+(variable is absent).
+
+**CSP header update** — `public/_headers`:
+
+```
+script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com;
+connect-src 'self' https://www.google-analytics.com https://analytics.google.com https://stats.g.doubleclick.net [form-service-domain];
+```
+
+**Performance impact**: GA4's `gtag.js` is ~28 kB (gzipped). The script is loaded
+with `async` to prevent blocking FCP or LCP. Lighthouse performance audits remain
+reliable since the async script does not hold up rendering.
 
 ## Hosting & Deployment
 

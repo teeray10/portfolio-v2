@@ -25,6 +25,14 @@ but there MUST be a tone of professionalism and simplicity."
 - Q: Should a light/dark mode toggle be included in v1? → A: Dark theme only in v1 — no toggle; design tokens and theme architecture MUST be structured to make a future light theme additive with minimal rework.
 - Q: What is the canonical section order for the single-page layout? → A: Hero → Projects → Experience → Skills → Contact. No dedicated About section.
 
+### Amendment 2026-05-15 (supersedes Q1)
+
+- Q1 revised: Google Analytics 4 IS included as one of the final MVP1 steps. This supersedes
+  the earlier "no tracking scripts" answer. Consent is assumed — no cookie consent banner
+  is required. Consequences: (a) CSP `connect-src` and `script-src` must allow Google
+  Analytics domains; (b) Lighthouse Best Practices score may be affected by the GA script
+  weight (~28 kB); (c) a full privacy policy page is out of scope for v1.
+
 ---
 
 ## User Scenarios & Testing _(mandatory)_
@@ -270,8 +278,9 @@ defined in Success Criteria.
   accessible from at least one location on the page at all times.
 - **FR-014**: The site MUST be deployable as a static asset bundle (no server-side rendering
   required at runtime) to support hosting on edge/CDN infrastructure.
-- **FR-015**: The site MUST NOT include any third-party tracking or analytics scripts.
-  No cookies of any kind are set by the site itself.
+- **FR-015**: The site MUST include Google Analytics 4 as the final MVP1 integration step.
+  GA4 MUST load unconditionally on every page view (consent is assumed). No cookie consent
+  banner is required.
 - **FR-016**: The contact form MUST implement honeypot spam protection. No CAPTCHA or
   challenge UI is required.
 
@@ -337,8 +346,9 @@ defined in Success Criteria.
 - A third-party form service (provider TBD at planning phase) will handle contact form
   submission and delivery; no custom backend is required. The chosen service MUST be
   host-agnostic and support honeypot spam protection without requiring additional JS bundles.
-- The site sets no first-party cookies and includes no third-party analytics or tracking
-  scripts. No cookie consent banner or privacy policy page is required for v1.
+- The site uses Google Analytics 4 for visitor analytics. Consent is assumed — GA4 fires
+  unconditionally on every page view. No cookie consent banner or privacy policy page is
+  required for v1.
 - The site will be hosted on a CDN-capable static hosting provider (e.g., Vercel, Netlify,
   or Cloudflare Pages). Deployment configuration for that provider is in scope.
 - No blog, case-study long-form writing, or CMS integration is required for this version.

@@ -185,6 +185,8 @@ pnpm dev
 
 Open http://localhost:4321
 
+> **Note**: Google Analytics does not fire in development (`PUBLIC_GA_ID` is absent).
+
 ---
 
 ## 8. Run type-checking and linting
@@ -226,7 +228,8 @@ The `dist/` directory contains the fully static output ready for deployment.
    - **Build command**: `pnpm build`
    - **Build output directory**: `dist`
    - **Node.js version**: `20`
-5. Click **Deploy**
+5. Add environment variable: `PUBLIC_GA_ID` = your GA4 Measurement ID (e.g., `G-XXXXXXXXXX`)
+6. Click **Deploy**
 
 ### Option B — Wrangler CLI
 
@@ -241,7 +244,7 @@ Create `public/_headers`:
 
 ```
 /*
-  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self'; connect-src 'self' https://formspree.io; frame-ancestors 'none'
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self'; connect-src 'self' https://www.google-analytics.com https://analytics.google.com https://stats.g.doubleclick.net [form-service-domain]; frame-ancestors 'none'
   X-Frame-Options: DENY
   X-Content-Type-Options: nosniff
   Referrer-Policy: strict-origin-when-cross-origin
@@ -249,7 +252,7 @@ Create `public/_headers`:
   Strict-Transport-Security: max-age=31536000; includeSubDomains; preload
 ```
 
-Update `connect-src` with the actual form service domain once selected.
+Replace `[form-service-domain]` with the actual form service endpoint once selected.
 
 ---
 
@@ -261,9 +264,10 @@ Before any public deployment:
 - [ ] `pnpm eslint src --max-warnings 0` exits clean
 - [ ] `pnpm build` succeeds
 - [ ] `pnpm exec playwright test` — all tests pass
-- [ ] Lighthouse Performance ≥ 95 (run via Chrome DevTools → Lighthouse)
+- [ ] Lighthouse Performance ≥ 95 (run via Chrome DevTools → Lighthouse, before accepting GA consent)
 - [ ] Lighthouse Accessibility = 100
 - [ ] All placeholder content replaced with real content
 - [ ] OG image present at `/og-image.png` (1200×630)
-- [ ] `public/_headers` contains all security headers
+- [ ] `public/_headers` contains all security headers with GA domains
 - [ ] `astro.config.ts` `site` property set to production URL
+- [ ] `PUBLIC_GA_ID` environment variable set in Cloudflare Pages dashboard
