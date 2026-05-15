@@ -15,6 +15,18 @@ but there MUST be a tone of professionalism and simplicity."
 
 ---
 
+## Clarifications
+
+### Session 2026-05-15
+
+- Q: Does the site require GDPR compliance, cookie consent, or analytics tracking? → A: Minimal — no tracking scripts, no first-party cookies, no cookie consent banner; honeypot spam protection only on the contact form.
+- Q: What level of SEO and social metadata is required? → A: Full social metadata — Open Graph, Twitter Card, canonical URL; no JSON-LD structured data.
+- Q: Which third-party service should handle contact form submission? → A: TBD — provider selection deferred to implementation planning; must be host-agnostic, require no custom backend, and support honeypot spam protection natively.
+- Q: Should a light/dark mode toggle be included in v1? → A: Dark theme only in v1 — no toggle; design tokens and theme architecture MUST be structured to make a future light theme additive with minimal rework.
+- Q: What is the canonical section order for the single-page layout? → A: Hero → Projects → Experience → Skills → Contact. No dedicated About section.
+
+---
+
 ## User Scenarios & Testing _(mandatory)_
 
 ### User Story 1 — Unforgettable First Impression (Priority: P1)
@@ -231,8 +243,9 @@ defined in Success Criteria.
 - **FR-001**: The site MUST be presented as a single scrolling page with all content
   accessible without navigation to separate URLs.
 - **FR-002**: A persistent navigation mechanism MUST allow visitors to jump directly
-  to any major section (Hero, Projects, Skills, Experience, Contact) from any scroll
-  position.
+  to any major section in the canonical order — Projects, Experience, Skills, Contact —
+  from any scroll position. The hero is the implicit entry point and does not require
+  a navigation anchor.
 - **FR-003**: The hero section MUST communicate the developer's name, primary professional
   title, and a brief positioning statement within the initial viewport.
 - **FR-004**: The hero section MUST contain at least one purposeful, non-distracting animated
@@ -257,6 +270,10 @@ defined in Success Criteria.
   accessible from at least one location on the page at all times.
 - **FR-014**: The site MUST be deployable as a static asset bundle (no server-side rendering
   required at runtime) to support hosting on edge/CDN infrastructure.
+- **FR-015**: The site MUST NOT include any third-party tracking or analytics scripts.
+  No cookies of any kind are set by the site itself.
+- **FR-016**: The contact form MUST implement honeypot spam protection. No CAPTCHA or
+  challenge UI is required.
 
 ### Key Entities
 
@@ -313,15 +330,21 @@ defined in Success Criteria.
   but MUST be replaced before any public deployment.
 - The portfolio is a solo personal site — no CMS, admin panel, or multi-author capability
   is required now or in the foreseeable future. Content is managed via code.
-- Dark-first visual theme is the default. A light mode toggle is desirable but not required
-  for the initial release; if included, it must be equally polished.
-- A third-party form service (e.g., Formspree, Netlify Forms, or equivalent) will handle
-  contact form submission and delivery; no custom backend is required.
+- The site uses a single dark visual theme for v1. No light mode toggle is in scope.
+  All design tokens (colour, spacing, typography) MUST be defined in a theme-aware
+  structure so that a light theme can be introduced in a future iteration without
+  requiring changes to component markup or layout.
+- A third-party form service (provider TBD at planning phase) will handle contact form
+  submission and delivery; no custom backend is required. The chosen service MUST be
+  host-agnostic and support honeypot spam protection without requiring additional JS bundles.
+- The site sets no first-party cookies and includes no third-party analytics or tracking
+  scripts. No cookie consent banner or privacy policy page is required for v1.
 - The site will be hosted on a CDN-capable static hosting provider (e.g., Vercel, Netlify,
   or Cloudflare Pages). Deployment configuration for that provider is in scope.
 - No blog, case-study long-form writing, or CMS integration is required for this version.
   These may be added in a future iteration.
-- Search engine optimisation (meta tags, Open Graph, structured data) is in scope and
-  constitutes part of the professional quality bar.
+- SEO metadata in scope: page title, meta description, canonical URL, Open Graph tags
+  (title, description, image, type), and Twitter Card tags. JSON-LD structured data is
+  explicitly out of scope for v1.
 - The developer's avatar/photo is available in high resolution and cleared for use.
 - At least three real projects with all required fields are available for the initial launch.
