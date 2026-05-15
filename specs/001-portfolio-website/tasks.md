@@ -18,13 +18,13 @@
 
 **Purpose**: Scaffold the project with all tooling configured and ready for development
 
-- [ ] T001 Scaffold Astro 6.3 project with pnpm at repo root; configure `astro.config.ts` with `output: "static"`, `site` placeholder, and `@astrojs/tailwind` Vite plugin
-- [ ] T002 [P] Install and configure TailwindCSS 4.3 — add Vite plugin to `astro.config.ts`, create empty `src/styles/global.css` with `@import "tailwindcss"`
+- [ ] T001 Scaffold Astro 6.3 project with pnpm at repo root; configure `astro.config.ts` with `output: "static"` and `site` placeholder
+- [ ] T002 [P] Install and configure TailwindCSS 4.3 — `pnpm add -D @tailwindcss/vite`; register `tailwindcss()` Vite plugin from `@tailwindcss/vite` in `astro.config.ts`; create `src/styles/global.css` with `@import "tailwindcss"` (note: TailwindCSS 4.x uses `@tailwindcss/vite`, NOT the legacy `@astrojs/tailwind` integration)
 - [ ] T003 [P] Install Motion 12.x (`pnpm add motion`) — no config needed
 - [ ] T004 [P] Configure TypeScript strict mode in `tsconfig.json` — `"strict": true`, `"noUncheckedIndexedAccess": true`
-- [ ] T005 [P] Install and configure ESLint (`eslint-config-astro`) + Prettier — create `.eslintrc.cjs` and `.prettierrc`; verify `pnpm eslint src --max-warnings 0` passes on empty project
+- [ ] T005 [P] Install and configure ESLint (`eslint-config-astro`) + Prettier — create `.eslintrc.cjs` and `.prettierrc`; verify `pnpm eslint src --max-warnings 0` passes on empty project; install `husky` + `commitlint` (`@commitlint/cli`, `@commitlint/config-conventional`) and configure a `commit-msg` hook to enforce Conventional Commits (constitution Principle IV)
 - [ ] T006 [P] Install Playwright and initialise e2e test config — `pnpm create playwright`, output `playwright.config.ts`, create `tests/e2e/` directory
-- [ ] T007 Create `public/_headers` with baseline security headers: `X-Frame-Options`, `X-Content-Type-Options`, `Referrer-Policy`, `Permissions-Policy`, `Strict-Transport-Security` (GA4 domains to be added later in T057)
+- [ ] T007 Create `public/_headers` with baseline security headers: `X-Frame-Options`, `X-Content-Type-Options`, `Referrer-Policy`, `Permissions-Policy`, `Strict-Transport-Security`; set `script-src 'self' 'unsafe-inline'` and `connect-src 'self'` as permissive dev values to avoid blocking local development (GA4 and form-service domains are added and `connect-src` is hardened in T057)
 
 **Checkpoint**: `pnpm dev` starts without errors; `pnpm build` produces a `dist/` folder
 
@@ -77,7 +77,7 @@
 
 **Independent Test**: Populate with 2 real projects. Ask someone unfamiliar with the developer to describe what each project does and what skills it demonstrates — without seeing any code
 
-- [ ] T027 [P] [US2] Create `src/components/ui/ProjectCard.astro` — name, short description, `tags` as styled badges, project visual (`<Image>` with AVIF/WebP), live URL and source URL buttons (conditional on availability); all interactive states: hover (card lift + glow using `--shadow-glow`), focus (visible ring), active; uses `ExperienceCard`-distinct visual treatment
+- [ ] T027 [P] [US2] Create `src/components/ui/ProjectCard.astro` — name, short description, `tags` as styled badges, project visual (`<Image>` with AVIF/WebP), live URL and source URL buttons (conditional on availability); all interactive states: hover (card lift + glow using `--shadow-glow`), focus (visible ring), active; visually distinct from all other card components on the page
 - [ ] T028 [US2] Implement `src/components/sections/ProjectsSection.astro` — asymmetric/staggered layout (not a uniform grid): featured projects get larger treatment, standard projects compact; `inView()` scroll-triggered stagger reveal using Motion.js (`translate-Y` + opacity, spring easing, `--duration-slow`); each project visually distinct (colour accent, graphic treatment)
 - [ ] T029 [US2] Add `ProjectsSection` to `src/pages/index.astro` after `HeroSection` (canonical order position 2); wire to Content Collection query (`getCollection('projects')`, sorted by `order`)
 - [ ] T030 [US2] Populate `src/content/projects/` with 3+ real project entries — replace placeholder JSON files; ensure `featured: true` on 1–2 entries; real images added to `public/images/projects/`
@@ -94,7 +94,7 @@
 
 - [ ] T031 [P] [US3] Create `src/components/ui/SkillBadge.astro` — skill name with proficiency tier visual treatment: `expert` tier gets larger size or stronger accent colour/weight; `proficient` standard; `familiar` muted; no numbers or bars; accessible (tier conveyed via `aria-label` in addition to visual)
 - [ ] T032 [US3] Implement `src/components/sections/SkillsSection.astro` — skill categories as visual anchors/headings; badges within each category; `inView()` scroll-triggered reveal per category; responsive layout (all skills legible at 375px, no truncation or overlap)
-- [ ] T033 [US3] Add `SkillsSection` to `src/pages/index.astro` after `ExperienceSection` (canonical order position 4 — Hero → Projects → Experience → **Skills** → Contact); wire to Content Collection query (`getCollection('skills')`)
+- [ ] T033 [US3] Add `SkillsSection` to `src/pages/index.astro` at canonical position 4 (Hero → Projects → Experience → **Skills** → Contact); append after `ProjectsSection` for now — `ExperienceSection` does not yet exist and will be inserted between them when T037 completes; wire to Content Collection query (`getCollection('skills')`)
 - [ ] T034 [US3] Populate `src/content/skills/` with real skill categories and proficiency tiers — replace placeholder JSON files (e.g. Frontend, Backend, DevOps, Tooling categories)
 
 **Checkpoint**: Skills section renders with real data. Category grouping is clear. Expert-tier skills are visually prominent without numbers.
@@ -161,10 +161,11 @@
 - [ ] T055 [P] Cross-browser visual check — Chrome, Firefox, Safari (macOS); fix any rendering inconsistencies in blend modes, backdrop-filter, OKLCH colours, or font rendering
 - [ ] T056 Typography and spacing audit — confirm no browser default values remain anywhere; all text uses `--font-*` tokens, all spacing uses token-derived values (VQ-002)
 - [ ] T057 Integrate GA4 in `src/layouts/BaseLayout.astro` — async `gtag.js` script with `PUBLIC_GA_ID` env var guard exactly as specified in plan.md; update `public/_headers` CSP `script-src` and `connect-src` with GA4 domains; replace `[form-service-domain]` placeholder in `connect-src` with actual contact form provider domain
-- [ ] T058 Configure Cloudflare Pages project — connect GitHub repo, set build command (`pnpm build`), output directory (`dist`), Node.js version (`20`), add `PUBLIC_GA_ID` environment variable (Measurement ID — NOT committed to repo)
+- [ ] T058 Configure Cloudflare Pages project — connect GitHub repo, set build command (`pnpm build`), output directory (`dist`), Node.js version (`20`), add `PUBLIC_GA_ID` environment variable (Measurement ID — NOT committed to repo); update `site` in `astro.config.ts` to the production URL (required for correct canonical URLs and OG tags)
 - [ ] T059 Deploy to Cloudflare Pages — verify production URL; run quickstart.md validation checklist end-to-end; confirm GA4 fires on live site; confirm contact form submits successfully on production
+- [ ] T060 Share deployed site with 3+ independent reviewers unfamiliar with the developer; collect first-reaction feedback; confirm design is assessed as "distinctive and memorable" — not template-like or generic (SC-008); resolve any critical visual feedback before marking the feature complete
 
-**Checkpoint**: Site is live on Cloudflare Pages. All validation checklist items checked. GA4 verified in GA Realtime view.
+**Checkpoint**: Site is live on Cloudflare Pages. All validation checklist items checked. GA4 verified in GA Realtime view. SC-008 reviewer sign-off obtained.
 
 ---
 
@@ -179,7 +180,7 @@ Phase 3 (US1 Hero)      → depends on Phase 2 — MVP milestone
 Phase 4 (US2 Projects)  → depends on Phase 2 — can start in parallel with Phase 3
 Phase 5 (US3 Skills)    → depends on Phase 2 — can start after Phase 2
 Phase 6 (US4 Experience)→ depends on Phase 2 — can start after Phase 2
-Phase 7 (US5 Contact)   → depends on Phase 2 + T039 decision — start T039 early
+Phase 7 (US5 Contact)   → depends on Phase 2 + T039 decision
 Phase 8 (US6 Perf/A11y) → depends on all content sections being present (Phases 3–7)
 Phase 9 (Polish/Launch) → depends on Phase 8 passing all audits
 ```
@@ -248,7 +249,7 @@ Complete **Phase 1 + Phase 2 + Phase 3 (US1)** first. At that point:
 
 | Metric                       | Value                   |
 | ---------------------------- | ----------------------- |
-| Total tasks                  | 59                      |
+| Total tasks                  | 60                      |
 | Setup tasks (Phase 1)        | 7                       |
 | Foundational tasks (Phase 2) | 10                      |
 | US1 — Hero tasks             | 9                       |
@@ -257,7 +258,7 @@ Complete **Phase 1 + Phase 2 + Phase 3 (US1)** first. At that point:
 | US4 — Experience tasks       | 4                       |
 | US5 — Contact tasks          | 5                       |
 | US6 — Performance tasks      | 8                       |
-| Polish & Launch tasks        | 8                       |
+| Polish & Launch tasks        | 9                       |
 | Parallelizable tasks [P]     | 26                      |
 | Decision points              | 3 (T008, T009, T039)    |
 | MVP milestone                | T025 (Phase 3 complete) |
